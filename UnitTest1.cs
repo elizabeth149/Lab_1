@@ -8,13 +8,18 @@ namespace TestProject1
         [TestClass]
         public class ProgramTests
         {
+            // Тестирование метода Sum_Nechet
             [Fact]
             public void TestSumNechet()
             {
+                // Arrange: Подготовка входных данных
                 double[] arr = new double[] { 1, 2, 3, 4, 5 };
+                // Act: Вызов тестируемого метода
                 double result = Program.Sum_Nechet(arr);
+                // Assert: Проверка результата
                 Xunit.Assert.Equal(9, result);
             }
+            // Тестирование метода Sum_Otric
             [Fact]
             public void TestSumOtric()
             {
@@ -24,7 +29,7 @@ namespace TestProject1
 
                 Xunit.Assert.Equal(-3, result);
             }
-
+            // Тестирование метода Zapolnenie
             [Fact]
             public void TestZapolnenie()
             {
@@ -35,7 +40,7 @@ namespace TestProject1
                 
                 Xunit.Assert.Equal(size, arr.Length);
             }
-
+            // Тестирование метода Zapolnenie_2
             [Fact]
             public void TestZapolnenie_2()
             {
@@ -46,7 +51,7 @@ namespace TestProject1
                 
                 Xunit.Assert.Equal(size, matrix.GetLength(1));
             }
-
+            // Тестирование метода BezNegativa
             [Fact]
             public void TestBezNegativa()
             {
@@ -64,7 +69,7 @@ namespace TestProject1
                 // Assert
                 Xunit.Assert.Equal(720, result);
             }
-
+            // Тестирование метода Diagonale
             [Fact]
             public void TestDiagonale()
             {
