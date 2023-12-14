@@ -1,26 +1,33 @@
-﻿
 using System.Drawing;
 using System.Numerics;
 //Вариант 3
 namespace ConsoleApp1
 {
-    class Program
+    public class Program
     {
-        private static int[] arr;
+        // Объявление публичного статического массива
+        public static int[] arr;
 
+        // Основной метод, точка входа в программу
         static void Main(string[] args)
         {
             Console.WriteLine("Вариант 3");
             Console.WriteLine("Часть 1");
             Console.WriteLine("");
             Console.Write("Введите размер массива: ");
+
             int N = int.Parse(Console.ReadLine());
+
+            // Вызов метода Zapolnenie для заполнения массива случайными значениями типа double
             double[] arr = Zapolnenie(N);
+
             Console.WriteLine("Исходный массив:" );
             PrintArray(arr);
+
+            // Вычисление и вывод суммы элементов с нечетными индексами
             double t = Sum_Nechet(arr);
             Console.WriteLine($"Сумма элементов с нечетными номерами: {t}");
-            // Найдем первый и последний отрицательные элементы
+            // Переменные отвечают за поиск первого и последнего отрицательных элементов в массиве
             int firstNegativeIndex = -1;
             int lastNegativeIndex = -1;
             for (int i = 0; i < N; i++)
@@ -34,9 +41,11 @@ namespace ConsoleApp1
                     lastNegativeIndex = i;
                 }
             }
+            // Вычисление и вывод суммы элементов между первым и последним отрицательными
             double r = Sum_Otric(arr, firstNegativeIndex, lastNegativeIndex);
             Console.WriteLine($"Сумма элементов между первым и последним отрицательными элементами: {r}");
-            // Удалим элементы, модуль которых не превышает единицу
+
+            //  Удаление элементов, модуль которых не превышает единицу
             for (int i = 0; i < N; i++)
             {
                 if (Math.Abs(arr[i]) <= 1)
@@ -47,6 +56,7 @@ namespace ConsoleApp1
             // Выведем измененный массив
             Console.WriteLine("Измененный массив после удаления элементов с модулем <= 1:");
             PrintArray(arr);
+
             Console.WriteLine("");
             Console.WriteLine("Часть 2");
             Console.Write("Введите размер матрицы: ");
@@ -54,18 +64,22 @@ namespace ConsoleApp1
             int[,] matrix = Zapolnenie_2(N_1);
             Console.WriteLine("Исходная матрица:");
             PrintMatrix(matrix,N_1);
-            BezNegativa(matrix);
-            Diagonale(matrix);
+            // Вычисление и вывод произведения элементов в строках без отрицательных элементов
+            int e = BezNegativa(matrix);
+            Console.WriteLine($"Произведение элементов в строках без отрицательных элементов: {e}");
+            // Вычисление и вывод максимума среди сумм элементов диагоналей, параллельных главной диагонали
+            int q = Diagonale(matrix);
+            Console.WriteLine($"Максимум среди сумм элементов диагоналей, параллельных главной диагонали: {q}");
 
 
         }
         // Метод вычисляет сумму элементов между первым и последним отрицательными элементами
-        private static double Sum_Otric(double[] a, int firstNegativeIndex, int lastNegativeIndex)
+        public static double Sum_Otric(double[] a, int firstNegativeIndex, int lastNegativeIndex)
         {
             double sum_otric_chisel = 0;
             if (firstNegativeIndex != -1 && lastNegativeIndex != -1)
             {
-                for(int i = firstNegativeIndex; i< lastNegativeIndex; i++)
+                for(int i = firstNegativeIndex; i<= lastNegativeIndex; i++)
                 {
                     sum_otric_chisel += a[i];
                 }
@@ -74,7 +88,7 @@ namespace ConsoleApp1
         }
 
         //Метод нахождения суммы элементов массива с нечектными номерами
-        private static double Sum_Nechet(double[] a)
+        public static double Sum_Nechet(double[] a)
         {
             double znach_1 = 0;
             for (int i = 0;i<a.Length; i += 2)
@@ -85,7 +99,7 @@ namespace ConsoleApp1
         }
 
         //Метод заполнения массива, состоящего из N вещественных элементов
-        private static double[] Zapolnenie(int size) { 
+        public static double[] Zapolnenie(int size) { 
             var random= new Random();
             double[] arr = new double[size];
             for (int i = 0; i< arr.Length; i++)
@@ -95,7 +109,7 @@ namespace ConsoleApp1
             return arr;
         }
         //Метод заполнения матрицы, состоящей из N*N целочисленных элементов
-        private static int[,] Zapolnenie_2(int size)
+        public static int[,] Zapolnenie_2(int size)
         {
             Random random = new Random();
             int[,] matrix = new int[size, size];
@@ -111,7 +125,7 @@ namespace ConsoleApp1
         }
 
         // Метод для вывода массива
-        private static void PrintArray(double[] arr)
+        public static void PrintArray(double[] arr)
         {
             foreach (var item in arr)
             {
@@ -120,7 +134,7 @@ namespace ConsoleApp1
             Console.WriteLine();
         }
         // Метод для вывода матрицы
-        private static void PrintMatrix(int[,] matrix, int size)
+        public static void PrintMatrix(int[,] matrix, int size)
         {
             for (int i = 0; i < size; i++)
             {
@@ -132,32 +146,41 @@ namespace ConsoleApp1
             }
         }
         // Метод вычисления произведения элементов в строках без отрицательных элементов
-        private static void BezNegativa(int[,] matrix)
+        public static int BezNegativa(int[,] matrix)
         {
             int productWithoutNegatives = 1;
-            int vremenProverka = 1;
+
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
+                // Флаг, указывающий, есть ли отрицательные числа в текущей строке
                 bool isNegative = false;
+
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    vremenProverka *= matrix[i, j];
                     if (matrix[i, j] < 0)
                     {
+                        // Если элемент отрицателен, устанавливаем флаг и прерываем цикл
                         isNegative = true;
                         break;
                     }
                 }
-            if (!isNegative)
+
+                // Проверка флага после завершения внутреннего цикла
+                if (!isNegative)
                 {
-                    productWithoutNegatives *= vremenProverka;
-                    vremenProverka = 1;
+                    // Если нет отрицательных элементов в строке, умножаем текущий элемент на общее произведение
+                    for (int j = 0; j < matrix.GetLength(1); j++)
+                    {
+                        productWithoutNegatives *= matrix[i, j];
+                    }
                 }
             }
-            Console.WriteLine($"Произведение элементов в строках без отрицательных элементов: {productWithoutNegatives}");
+
+            return productWithoutNegatives;
         }
+
         // Метод нахождения максимума среди сумм элементов диагоналей, параллельных главной диагонали матрицы
-        private static void Diagonale(int[,] matrix)
+        public static int Diagonale(int[,] matrix)
         {
             int n = matrix.GetLength(0);
             int maxSum = int.MinValue;
@@ -190,7 +213,7 @@ namespace ConsoleApp1
                 }
             }
 
-            Console.WriteLine($"Максимум среди сумм элементов диагоналей, параллельных главной диагонали: {maxSum}");
+            return maxSum; 
 
         }
     }
